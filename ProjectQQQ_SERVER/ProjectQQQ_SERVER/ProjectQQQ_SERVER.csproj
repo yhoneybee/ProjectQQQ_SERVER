@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <Reference Include="ProudDotNetClient">
-      <HintPath>bin\Debug\net6.0\ProudDotNetClient.dll</HintPath>
+      <HintPath>..\..\DLL\ProudDotNetClient.dll</HintPath>
     </Reference>
     <Reference Include="ProudDotNetServer">
-      <HintPath>bin\Debug\net6.0\ProudDotNetServer.dll</HintPath>
+      <HintPath>..\..\DLL\ProudDotNetServer.dll</HintPath>
     </Reference>
   </ItemGroup>
 

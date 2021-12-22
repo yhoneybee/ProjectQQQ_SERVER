@@ -9,14 +9,13 @@ namespace SERVER
 {
     class Client
     {
-        public Client(HostID hostID, string ID, string nickName, string PW)
+        public Client(HostID hostID, string ID, string PW)
         {
             this.ID = ID;
-            this.nickName = nickName;
             this.PW = PW;
             this.hostID = hostID;
         }
-        public string ID, nickName, PW;
+        public string ID, PW;
         public HostID hostID;
         public int roomNum;
     }
