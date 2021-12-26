@@ -10,5 +10,6 @@ namespace SERVER
     static class K
     {
         public static List<Client> clients = new List<Client>();
+        public static List<Room> rooms = new List<Room>();
     }
 }

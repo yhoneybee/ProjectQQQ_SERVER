@@ -35,8 +35,16 @@ class Program
         netServer.Start(param);
 
         Console.WriteLine("Server running...");
-        K.clients.Add(new Client(HostID.HostID_None, "admin1", "1234"));
-        K.clients.Add(new Client(HostID.HostID_None, "admin2", "1234"));
+        var admin1 = new Client(HostID.HostID_None, "admin1", "1234");
+        var admin2 = new Client(HostID.HostID_None, "admin2", "1234");
+        K.clients.Add(admin1);
+        K.clients.Add(admin2);
+
+        var room = new Room("admins", "1234");
+        room.clients.Add(admin1);
+        room.clients.Add(admin2);
+        admin1.roomNum = admin2.roomNum = room.num = -1;
+        K.rooms.Add(room);
 
         while (true)
         {
