@@ -70,10 +70,10 @@ class Program
     {
         var find = K.clients.Find(x => x.ID == id);
         bool isSuccess = false;
-        if (find != null)
+        if (find! != null)
         {
             find.hostID = remote;
-            isSuccess = find.ID == id && find.PW == pw;
+            isSuccess = find!.ID == id && find.PW == pw;
         }
         proxy.LoginResult(remote, rmiContext, id, isSuccess);
         return true;
@@ -82,7 +82,7 @@ class Program
     private static bool OnChatToAll(HostID remote, RmiContext rmiContext, string id, string chat)
     {
         var find = K.clients.Find(x => x.ID == id);
-        Console.WriteLine($"( ALL )[ {find.ID} ] : {chat}");
+        Console.WriteLine($"( ALL )[ {find!.ID} ] : {chat}");
         foreach (var client in K.clients)
             proxy.EchoToAll(client.hostID, rmiContext, id, chat);
         return true;
