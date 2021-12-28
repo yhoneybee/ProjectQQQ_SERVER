@@ -15,6 +15,9 @@ namespace SERVER
             this.PW = PW;
             this.hostID = hostID;
         }
+        public float x, y, z;
+        public bool isReady;
+        public bool isHost;
         public string ID, PW;
         public HostID hostID;
         public int roomNum;

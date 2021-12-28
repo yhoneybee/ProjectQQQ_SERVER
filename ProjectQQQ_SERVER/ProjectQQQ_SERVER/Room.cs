@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SERVER
 {
+    [Serializable]
     class Room
     {
         public Room(string name, string pw)

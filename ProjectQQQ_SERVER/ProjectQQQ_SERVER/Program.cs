@@ -46,6 +46,8 @@ class Program
         admin1.roomNum = admin2.roomNum = room.num = -1;
         K.rooms.Add(room);
 
+        // TODO: 여기서 DB읽어서 위와같이 클라이언트 추가해줘야함
+
         while (true)
         {
 
@@ -115,6 +117,7 @@ class Program
 
     private static bool OnRecordPosition(HostID remote, RmiContext rmiContext, string id, float x, float y, float z)
     {
+
         return true;
     }
 
