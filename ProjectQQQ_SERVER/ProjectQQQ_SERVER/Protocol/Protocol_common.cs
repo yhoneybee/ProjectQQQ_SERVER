@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -19,9 +19,10 @@ namespace C2S
         public const Nettention.Proud.RmiID ChatToRoom = (Nettention.Proud.RmiID)1000 + 4;
         public const Nettention.Proud.RmiID ChatToPerson = (Nettention.Proud.RmiID)1000 + 5;
         public const Nettention.Proud.RmiID CreateRoom = (Nettention.Proud.RmiID)1000 + 6;
-        public const Nettention.Proud.RmiID GameReady = (Nettention.Proud.RmiID)1000 + 7;
-        public const Nettention.Proud.RmiID GameStart = (Nettention.Proud.RmiID)1000 + 8;
-        public const Nettention.Proud.RmiID RecordPosition = (Nettention.Proud.RmiID)1000 + 9;
+        public const Nettention.Proud.RmiID GetRoomDatas = (Nettention.Proud.RmiID)1000 + 7;
+        public const Nettention.Proud.RmiID GameReady = (Nettention.Proud.RmiID)1000 + 8;
+        public const Nettention.Proud.RmiID GameStart = (Nettention.Proud.RmiID)1000 + 9;
+        public const Nettention.Proud.RmiID RecordPosition = (Nettention.Proud.RmiID)1000 + 10;
         // List that has RMI ID.
         public static Nettention.Proud.RmiID[] RmiIDList = new Nettention.Proud.RmiID[] {
             SignUp,
@@ -30,6 +31,7 @@ namespace C2S
             ChatToRoom,
             ChatToPerson,
             CreateRoom,
+            GetRoomDatas,
             GameReady,
             GameStart,
             RecordPosition,
@@ -47,9 +49,10 @@ namespace S2C
         public const Nettention.Proud.RmiID EchoToRoom = (Nettention.Proud.RmiID)4000 + 4;
         public const Nettention.Proud.RmiID EchoToPerson = (Nettention.Proud.RmiID)4000 + 5;
         public const Nettention.Proud.RmiID CreateRoomResult = (Nettention.Proud.RmiID)4000 + 6;
-        public const Nettention.Proud.RmiID GameReadyReflection = (Nettention.Proud.RmiID)4000 + 7;
-        public const Nettention.Proud.RmiID GameStartReflection = (Nettention.Proud.RmiID)4000 + 8;
-        public const Nettention.Proud.RmiID PositionReflection = (Nettention.Proud.RmiID)4000 + 9;
+        public const Nettention.Proud.RmiID GetRoomDatas = (Nettention.Proud.RmiID)4000 + 7;
+        public const Nettention.Proud.RmiID GameReadyReflection = (Nettention.Proud.RmiID)4000 + 8;
+        public const Nettention.Proud.RmiID GameStartReflection = (Nettention.Proud.RmiID)4000 + 9;
+        public const Nettention.Proud.RmiID PositionReflection = (Nettention.Proud.RmiID)4000 + 10;
         // List that has RMI ID.
         public static Nettention.Proud.RmiID[] RmiIDList = new Nettention.Proud.RmiID[] {
             SignUpResult,
@@ -58,6 +61,7 @@ namespace S2C
             EchoToRoom,
             EchoToPerson,
             CreateRoomResult,
+            GetRoomDatas,
             GameReadyReflection,
             GameStartReflection,
             PositionReflection,

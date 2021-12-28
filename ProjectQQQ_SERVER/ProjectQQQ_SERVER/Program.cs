@@ -26,6 +26,7 @@ class Program
         stub.GameReady = OnGameReady;
         stub.GameStart = OnGameStart;
         stub.RecordPosition = OnRecordPosition;
+        stub.GetRoomDatas = OnGetRoomDatas;
 
         netServer.ClientJoinHandler = OnJoinServer;
         netServer.ClientLeaveHandler = OnLeaveServer;
@@ -54,7 +55,7 @@ class Program
         }
     }
 
-    private static bool OnSignUp(HostID remote, RmiContext rmiContext, string id, string nickName, string pw, string confirmPw)
+    private static bool OnSignUp(HostID remote, RmiContext rmiContext, string id, string pw, string confirmPw)
     {
         var find = K.clients.Find(x => x.ID == id);
         bool isSuccess = false;
@@ -105,12 +106,12 @@ class Program
         return true;
     }
 
-    private static bool OnGameReady(HostID remote, RmiContext rmiContext, string id, string roomName, bool isReady)
+    private static bool OnGameReady(HostID remote, RmiContext rmiContext, string id)
     {
         return true;
     }
 
-    private static bool OnGameStart(HostID remote, RmiContext rmiContext, string id, string roomName)
+    private static bool OnGameStart(HostID remote, RmiContext rmiContext, string id)
     {
         return true;
     }
@@ -118,6 +119,11 @@ class Program
     private static bool OnRecordPosition(HostID remote, RmiContext rmiContext, string id, float x, float y, float z)
     {
 
+        return true;
+    }
+
+    private static bool OnGetRoomDatas(HostID remote, RmiContext rmiContext)
+    {
         return true;
     }
 
