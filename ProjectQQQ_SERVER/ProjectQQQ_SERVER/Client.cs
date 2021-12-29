@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SERVER
+namespace ProjectQQQ_SERVER
 {
+    [Serializable]
     class Client
     {
         public Client(HostID hostID, string ID, string PW)

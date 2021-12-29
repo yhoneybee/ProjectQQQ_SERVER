@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using Nettention.Proud;
 using System.Linq;
-using SERVER;
+using Newtonsoft.Json;
+using ProjectQQQ_SERVER;
 
 class Program
 {
@@ -23,10 +24,12 @@ class Program
         stub.ChatToRoom = OnChatToRoom;
         stub.ChatToPerson = OnChatToPerson;
         stub.CreateRoom = OnCreateRoom;
+        stub.EnterRoom = OnEnterRoom;
         stub.GameReady = OnGameReady;
         stub.GameStart = OnGameStart;
         stub.RecordPosition = OnRecordPosition;
         stub.GetRoomDatas = OnGetRoomDatas;
+        stub.GetClientDatas = OnGetClientDatas;
 
         netServer.ClientJoinHandler = OnJoinServer;
         netServer.ClientLeaveHandler = OnLeaveServer;
@@ -106,6 +109,11 @@ class Program
         return true;
     }
 
+    private static bool OnEnterRoom(HostID remote, RmiContext rmiContext, string id, string roomName, string pw)
+    {
+        return true;
+    }
+
     private static bool OnGameReady(HostID remote, RmiContext rmiContext, string id)
     {
         return true;
@@ -118,12 +126,28 @@ class Program
 
     private static bool OnRecordPosition(HostID remote, RmiContext rmiContext, string id, float x, float y, float z)
     {
-
+        var client = K.clients.Find(x => x.ID == id);
+        if (client! != null)
+        {
+            var room = K.rooms.Find(x => x.num == client.roomNum);
+            client.x = x;
+            client.y = y;
+            client.z = z;
+        }
         return true;
     }
 
-    private static bool OnGetRoomDatas(HostID remote, RmiContext rmiContext)
+    private static bool OnGetRoomDatas(HostID remote, RmiContext rmiContext, string id)
     {
+        string json = JsonConvert.SerializeObject(new Serialization<Room>(K.rooms));
+        proxy.GetRoomDatas(remote, rmiContext, json);
+        return true;
+    }
+
+    private static bool OnGetClientDatas(HostID remote, RmiContext rmiContext, string id)
+    {
+        string json = JsonConvert.SerializeObject(new Serialization<Client>(K.clients));
+        proxy.GetClientDatas(remote, rmiContext, json);
         return true;
     }
 

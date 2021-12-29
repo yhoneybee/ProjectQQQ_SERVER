@@ -26,7 +26,7 @@ global S2C 4000
     CreateRoomResult([in] string id, [in] string roomName, [in] bool isSuccess);
 	EnterRoomResult([in] string id, [in] string roomName, [in] bool isSuccess);
 	GetRoomDatas([in] string json);
-	GetClientDatas([in] string json);
+	GetRoomDatas([in] string json);
     GameReadyReflection([in] string id);
     GameStartReflection([in] string id);
     PositionReflection([in] string id, [in] float x, [in] float y, [in] float z);
