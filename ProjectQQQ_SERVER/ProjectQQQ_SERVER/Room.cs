@@ -15,7 +15,7 @@ namespace ProjectQQQ_SERVER
             this.pw = pw;
         }
         public string name, pw;
-        public int num;
+        public int id;
         public List<Client> clients = new List<Client>();
     }
 }

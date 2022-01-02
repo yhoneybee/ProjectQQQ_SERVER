@@ -189,14 +189,14 @@ namespace C2S
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_CreateRoom, Common.CreateRoom);
         }
-        public bool EnterRoom(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomName, string pw)
+        public bool EnterRoom(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomId, string pw)
         {
             Nettention.Proud.Message __msg = new Nettention.Proud.Message();
             __msg.SimplePacketMode = core.IsSimplePacketMode();
             Nettention.Proud.RmiID __msgid = Common.EnterRoom;
             __msg.Write(__msgid);
             Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, roomName);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
             Nettention.Proud.Marshaler.Write(__msg, pw);
 
             Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
@@ -206,18 +206,46 @@ namespace C2S
                 RmiName_EnterRoom, Common.EnterRoom);
         }
 
-        public bool EnterRoom(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomName, string pw)
+        public bool EnterRoom(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomId, string pw)
         {
             Nettention.Proud.Message __msg = new Nettention.Proud.Message();
             __msg.SimplePacketMode = core.IsSimplePacketMode();
             Nettention.Proud.RmiID __msgid = Common.EnterRoom;
             __msg.Write(__msgid);
             Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, roomName);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
             Nettention.Proud.Marshaler.Write(__msg, pw);
 
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_EnterRoom, Common.EnterRoom);
+        }
+        public bool ExitRoom(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomId)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.ExitRoom;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
+
+            Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
+            __list[0] = remote;
+
+            return RmiSend(__list, rmiContext, __msg,
+                RmiName_ExitRoom, Common.ExitRoom);
+        }
+
+        public bool ExitRoom(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomId)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.ExitRoom;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
+
+            return RmiSend(remotes, rmiContext, __msg,
+                RmiName_ExitRoom, Common.ExitRoom);
         }
         public bool GetRoomDatas(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id)
         {
@@ -366,6 +394,7 @@ public const string RmiName_ChatToRoom="ChatToRoom";
 public const string RmiName_ChatToPerson="ChatToPerson";
 public const string RmiName_CreateRoom="CreateRoom";
 public const string RmiName_EnterRoom="EnterRoom";
+public const string RmiName_ExitRoom="ExitRoom";
 public const string RmiName_GetRoomDatas="GetRoomDatas";
 public const string RmiName_GetClientDatas="GetClientDatas";
 public const string RmiName_GameReady="GameReady";
@@ -383,6 +412,7 @@ public const string RmiName_First = RmiName_SignUp;
         public const string RmiName_ChatToPerson = "";
         public const string RmiName_CreateRoom = "";
         public const string RmiName_EnterRoom = "";
+        public const string RmiName_ExitRoom = "";
         public const string RmiName_GetRoomDatas = "";
         public const string RmiName_GetClientDatas = "";
         public const string RmiName_GameReady = "";
@@ -573,14 +603,14 @@ namespace S2C
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_CreateRoomResult, Common.CreateRoomResult);
         }
-        public bool EnterRoomResult(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomName, bool isSuccess)
+        public bool EnterRoomResult(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomId, bool isSuccess)
         {
             Nettention.Proud.Message __msg = new Nettention.Proud.Message();
             __msg.SimplePacketMode = core.IsSimplePacketMode();
             Nettention.Proud.RmiID __msgid = Common.EnterRoomResult;
             __msg.Write(__msgid);
             Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, roomName);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
             Nettention.Proud.Marshaler.Write(__msg, isSuccess);
 
             Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
@@ -590,18 +620,48 @@ namespace S2C
                 RmiName_EnterRoomResult, Common.EnterRoomResult);
         }
 
-        public bool EnterRoomResult(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomName, bool isSuccess)
+        public bool EnterRoomResult(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomId, bool isSuccess)
         {
             Nettention.Proud.Message __msg = new Nettention.Proud.Message();
             __msg.SimplePacketMode = core.IsSimplePacketMode();
             Nettention.Proud.RmiID __msgid = Common.EnterRoomResult;
             __msg.Write(__msgid);
             Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, roomName);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
             Nettention.Proud.Marshaler.Write(__msg, isSuccess);
 
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_EnterRoomResult, Common.EnterRoomResult);
+        }
+        public bool ExitRoomResult(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomId, bool isSuccess)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.ExitRoomResult;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
+            Nettention.Proud.Marshaler.Write(__msg, isSuccess);
+
+            Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
+            __list[0] = remote;
+
+            return RmiSend(__list, rmiContext, __msg,
+                RmiName_ExitRoomResult, Common.ExitRoomResult);
+        }
+
+        public bool ExitRoomResult(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomId, bool isSuccess)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.ExitRoomResult;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
+            Nettention.Proud.Marshaler.Write(__msg, isSuccess);
+
+            return RmiSend(remotes, rmiContext, __msg,
+                RmiName_ExitRoomResult, Common.ExitRoomResult);
         }
         public bool GetRoomDatas(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string json)
         {
@@ -782,6 +842,7 @@ public const string RmiName_EchoToRoom="EchoToRoom";
 public const string RmiName_EchoToPerson="EchoToPerson";
 public const string RmiName_CreateRoomResult="CreateRoomResult";
 public const string RmiName_EnterRoomResult="EnterRoomResult";
+public const string RmiName_ExitRoomResult="ExitRoomResult";
 public const string RmiName_GetRoomDatas="GetRoomDatas";
 public const string RmiName_GetClientDatas="GetClientDatas";
 public const string RmiName_GameReadyReflection="GameReadyReflection";
@@ -800,6 +861,7 @@ public const string RmiName_First = RmiName_SignUpResult;
         public const string RmiName_EchoToPerson = "";
         public const string RmiName_CreateRoomResult = "";
         public const string RmiName_EnterRoomResult = "";
+        public const string RmiName_ExitRoomResult = "";
         public const string RmiName_GetRoomDatas = "";
         public const string RmiName_GetClientDatas = "";
         public const string RmiName_GameReadyReflection = "";

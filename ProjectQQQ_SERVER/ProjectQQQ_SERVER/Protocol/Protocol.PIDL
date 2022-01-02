@@ -8,7 +8,8 @@ global C2S 1000
 	ChatToRoom([in] string id, [in] string roomId, [in] string chat);
 	ChatToPerson([in] string id, [in] string personId, [in] string chat);
 	CreateRoom([in] string id, [in] string roomName, [in] string pw);
-	EnterRoom([in] string id, [in] string roomName, [in] string pw);
+	EnterRoom([in] string id, [in] string roomId, [in] string pw);
+	ExitRoom([in] string id, [in] string roomId);
 	GetRoomDatas([in] string id);
 	GetClientDatas([in] string id);
 	GameReady([in] string id);
@@ -24,7 +25,8 @@ global S2C 4000
     EchoToRoom([in] string id, [in] string roomId, [in] string chat);
     EchoToPerson([in] string id, [in] string personId, [in] string chat);
     CreateRoomResult([in] string id, [in] string roomName, [in] bool isSuccess);
-	EnterRoomResult([in] string id, [in] string roomName, [in] bool isSuccess);
+	EnterRoomResult([in] string id, [in] string roomId, [in] bool isSuccess);
+	ExitRoomResult([in] string id, [in] string roomId, [in] bool isSuccess);
 	GetRoomDatas([in] string json);
 	GetClientDatas([in] string json);
     GameReadyReflection([in] string id);
