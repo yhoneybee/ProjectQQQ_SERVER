@@ -69,7 +69,7 @@ namespace ProjectQQQ_SERVER
 
         public void InsertUser(string id, string pw, HostID hostID)
         {
-            _Insert($"insert into users values (now(),now(),'{id}',md5('{pw}'),{Convert.ToInt32(hostID)})");
+            _Insert($"insert into users values (now(), now(), '{id}', md5('{pw}'), {Convert.ToInt32(hostID)})");
         }
 
         public void InsertRoom(string name, string pw, int id)
@@ -87,23 +87,81 @@ namespace ProjectQQQ_SERVER
             try
             {
                 var cmd = new MySqlCommand(sql, connection);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() != 1)
+                    Console.WriteLine("***failed to insert data.***");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
         }
 
-        private void _Update()
+        public void UpdateUser(string id, HostID hostID)
         {
-
+            _Update($"update users set LostLoginDate = now(), HostID = {Convert.ToInt32(hostID)} where ID = '{id}'");
         }
 
-        private void _Delete()
+        public void UpdateRooms(string id, int clientCount)
         {
+            _Update($"update rooms set ClientCount = {clientCount} where ID = '{id}'");
+        }
 
+        private void _Update(string sql)
+        {
+            try
+            {
+                var cmd = new MySqlCommand(sql, connection);
+                if (cmd.ExecuteNonQuery() != 1)
+                    Console.WriteLine("***failed to update data.***");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void DeleteUser(string where = "")
+        {
+            if (where != "")
+            {
+                if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
+                    where = "where " + where;
+            }
+            _Delete($"delete from users {where}");
+        }
+
+        public void DeleteRoom(string where = "")
+        {
+            if (where != "")
+            {
+                if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
+                    where = "where " + where;
+            }
+            _Delete($"delete from rooms {where}");
+        }
+
+        public void DeleteRoomUser(string where = "")
+        {
+            if (where != "")
+            {
+                if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
+                    where = "where " + where;
+            }
+            _Delete($"delete from roomusers {where}");
+        }
+
+        private void _Delete(string sql)
+        {
+            try
+            {
+                var cmd = new MySqlCommand(sql, connection);
+                if (cmd.ExecuteNonQuery() != 1)
+                    Console.WriteLine("***failed to delete data.***");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void _Select()

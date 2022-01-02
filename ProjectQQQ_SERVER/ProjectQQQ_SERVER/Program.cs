@@ -91,6 +91,7 @@ class Program
         {
             find.hostID = remote;
             isSuccess = find!.ID == id && find.PW == pw;
+            mySql.UpdateUser(id, remote);
         }
         proxy.LoginResult(remote, rmiContext, id, isSuccess);
         return true;

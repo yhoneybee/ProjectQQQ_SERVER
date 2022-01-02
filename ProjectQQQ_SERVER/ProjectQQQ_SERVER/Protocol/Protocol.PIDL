@@ -24,7 +24,7 @@ global S2C 4000
     EchoToAll([in] string id, [in] string chat);
     EchoToRoom([in] string id, [in] string roomId, [in] string chat);
     EchoToPerson([in] string id, [in] string personId, [in] string chat);
-    CreateRoomResult([in] string id, [in] string roomName, [in] bool isSuccess);
+    CreateRoomResult([in] string id, [in] string roomId, [in] bool isSuccess);
 	EnterRoomResult([in] string id, [in] string roomId, [in] bool isSuccess);
 	ExitRoomResult([in] string id, [in] string roomId, [in] bool isSuccess);
 	GetRoomDatas([in] string json);
