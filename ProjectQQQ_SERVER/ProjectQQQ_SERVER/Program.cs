@@ -102,7 +102,7 @@ class Program
     private static bool OnChatToAll(HostID remote, RmiContext rmiContext, string id, string chat)
     {
         var find = K.users.Find(x => x.ID == id);
-        Console.WriteLine($"( ALL )[ {find!.ID} ] : {chat}");
+        Console.WriteLine($"{chat}");
         foreach (var user in K.users)
             proxy.EchoToAll(user.hostID, rmiContext, id, chat);
         return true;
