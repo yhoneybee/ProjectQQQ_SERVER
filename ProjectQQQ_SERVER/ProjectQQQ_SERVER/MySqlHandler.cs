@@ -92,7 +92,7 @@ namespace ProjectQQQ_SERVER
 
         public void UpdateUser(string id, HostID hostID)
         {
-            _Update($"update users set LostLoginDate = now(), HostID = {Convert.ToInt32(hostID)} where ID = '{id}'");
+            _Update($"update users set LastLoginDate = now(), HostID = {Convert.ToInt32(hostID)} where ID = '{id}'");
         }
 
         public void UpdateRooms(string id, int clientCount)
@@ -169,6 +169,8 @@ namespace ProjectQQQ_SERVER
 
             List<User> users = new List<User>();
 
+            if (table == null) return users;
+
             while (table!.Read())
             {
                 User user = new User((HostID)Convert.ToInt32(table["HostID"].ToString()), table["ID"].ToString(), table["PW"].ToString());
@@ -180,24 +182,52 @@ namespace ProjectQQQ_SERVER
             return users;
         }
 
-        public void SelectRoom(string where = "")
+        public List<Room> SelectRoom(string where = "")
         {
             if (where != "")
             {
                 if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
                     where = "where " + where;
             }
-            _Select($"select * from rooms {where}");
+            var table = _Select($"select * from rooms {where}");
+
+            List<Room> rooms = new List<Room>();
+
+            if (table == null) return rooms;
+
+            while (table!.Read())
+            {
+                Room room = new Room(table["RoomName"].ToString(), Convert.ToInt32(table["ID"]), table["PW"].ToString());
+                rooms.Add(room);
+            }
+
+            table.Close();
+
+            return rooms;
         }
 
-        public void SelectRoomUser(string where = "")
+        public List<RoomUser> SelectRoomUser(string where = "")
         {
             if (where != "")
             {
                 if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
                     where = "where " + where;
             }
-            _Select($"select * from roomusers {where}");
+            var table = _Select($"select * from roomusers {where}");
+
+            List<RoomUser> roomusers = new List<RoomUser>();
+
+            if (table == null) return roomusers;
+
+            while (table!.Read())
+            {
+                RoomUser roomUser = new RoomUser(Convert.ToInt32(table["RoomID"]), table["UserID"].ToString());
+                roomusers.Add(roomUser);
+            }
+
+            table.Close();
+
+            return roomusers;
         }
 
         private MySqlDataReader? _Select(string sql)

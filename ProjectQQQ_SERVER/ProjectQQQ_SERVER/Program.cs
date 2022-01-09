@@ -11,7 +11,7 @@ class Program
     public static NetServer netServer = new NetServer();
     public static S2C.Proxy proxy = new S2C.Proxy();
     public static C2S.Stub stub = new C2S.Stub();
-    public static MySqlHandler mySql = new MySqlHandler("localhost", "3306", "test", "root", "Rnfqjf2671!@#");
+    public static MySqlHandler mySql = new MySqlHandler("119.196.245.41", "3306", "test", "kkulbeol", "Rnfqjf2671!@#");
 
     private static void Main(string[] _)
     {
@@ -59,6 +59,30 @@ class Program
         //mySql.InsertUser("kkulbeol", "123", HostID.HostID_None);
 
         K.users = mySql.SelectUser();
+        Console.WriteLine($"------------------------------------------");
+        Console.WriteLine($"- Users ({K.users.Count}) ------------------------------");
+        foreach (var user in K.users)
+        {
+            Console.WriteLine($"user : {user.ID}");
+        }
+        K.rooms = mySql.SelectRoom();
+        Console.WriteLine($"- Rooms ({K.rooms.Count}) ------------------------------");
+        foreach (var room in K.rooms)
+        {
+            Console.WriteLine($"room : {room.name}");
+        }
+        foreach (var ru in mySql.SelectRoomUser())
+        {
+            var user = K.users.Find(x => x.ID == ru.userID);
+            var room = K.rooms.Find(x => x.id == ru.roomID);
+            if (user != null && room != null)
+            {
+                user.roomID = ru.roomID;
+                room.users.Add(user);
+                Console.WriteLine($"user({user.ID}) IN --> room({room.name})");
+            }
+        }
+        Console.WriteLine($"------------------------------------------");
 
         Console.WriteLine("Server is run.");
         while (true)
@@ -78,7 +102,9 @@ class Program
             if (isSuccess)
             {
                 mySql.InsertUser(id, pw, remote);
+                user.PW = mySql.SelectUser($"ID = {id} and PW = md5('{pw}')")[0].PW;
                 K.users.Add(user);
+                Console.WriteLine($"signup : {user.ID}");
             }
         }
         proxy.SignUpResult(remote, rmiContext, id, isSuccess);
@@ -91,9 +117,14 @@ class Program
         bool isSuccess = false;
         if (find! != null)
         {
-            find.hostID = remote;
-            isSuccess = find!.ID == id && find.PW == pw;
-            mySql.UpdateUser(id, remote);
+            var user = mySql.SelectUser($"ID = {id} and PW = md5('{pw}')");
+            isSuccess = user.Count == 1;
+            if (isSuccess)
+            {
+                find.hostID = remote;
+                mySql.UpdateUser(id, remote);
+                Console.WriteLine($"login : {find.ID}");
+            }
         }
         proxy.LoginResult(remote, rmiContext, id, isSuccess);
         return true;
@@ -104,7 +135,10 @@ class Program
         var find = K.users.Find(x => x.ID == id);
         Console.WriteLine($"{chat}");
         foreach (var user in K.users)
-            proxy.EchoToAll(user.hostID, rmiContext, id, chat);
+        {
+            if (find!.ID != user.ID)
+                proxy.EchoToAll(user.hostID, rmiContext, id, chat);
+        }
         return true;
     }
 
@@ -145,13 +179,13 @@ class Program
 
     private static bool OnRecordPosition(HostID remote, RmiContext rmiContext, string id, float x, float y, float z)
     {
-        var client = K.users.Find(x => x.ID == id);
-        if (client! != null)
+        var user = K.users.Find(x => x.ID == id);
+        if (user! != null)
         {
-            var room = K.rooms.Find(x => x.id == client.roomNum);
-            client.x = x;
-            client.y = y;
-            client.z = z;
+            var room = K.rooms.Find(x => x.id == user.roomID);
+            user.x = x;
+            user.y = y;
+            user.z = z;
         }
         return true;
     }

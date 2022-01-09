@@ -12,8 +12,8 @@ namespace ProjectQQQ_SERVER
     {
         public User(HostID hostID, string? ID, string? PW)
         {
-            this.ID = ID;
-            this.PW = PW;
+            this.ID = ID!;
+            this.PW = PW!;
             this.hostID = hostID;
         }
         public float x, y, z;
@@ -21,6 +21,6 @@ namespace ProjectQQQ_SERVER
         public bool isHost;
         public string ID, PW;
         public HostID hostID;
-        public int roomNum;
+        public int roomID;
     }
 }

@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 namespace ProjectQQQ_SERVER
 {
     [Serializable]
-    class Room
+    public class Room
     {
-        public Room(string name, string pw)
+        public Room(string? name, int id, string? pw)
         {
-            this.name = name;
-            this.pw = pw;
+            this.name = name!;
+            this.id = id;
+            this.pw = pw!;
         }
         public string name, pw;
         public int id;
-        public List<User> clients = new List<User>();
+        public List<User> users = new List<User>();
     }
 }
