@@ -8,7 +8,7 @@ namespace ProjectQQQ_SERVER
 {
     static class K
     {
-        public static List<Client> clients = new List<Client>();
+        public static List<User> users = new List<User>();
         public static List<Room> rooms = new List<Room>();
     }
 }

@@ -8,12 +8,6 @@ using Nettention.Proud;
 
 namespace ProjectQQQ_SERVER
 {
-    //using (MySqlConnection connection = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Rnfqjf2671!@#"))
-    //{
-    //    connection.Open();
-    //    var cmd = new MySqlCommand("insert into users values (now(),now(),'kkulbeol',md5('123'))", connection);
-    //    cmd.ExecuteNonQuery();
-    //}
     public class MySqlHandler : IDisposable
     {
         public MySqlHandler(string server, string port, string database, string uid, string pwd)
@@ -164,15 +158,67 @@ namespace ProjectQQQ_SERVER
             }
         }
 
-        private void _Select()
+        public List<User> SelectUser(string where = "")
         {
+            if (where != "")
+            {
+                if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
+                    where = "where " + where;
+            }
+            var table = _Select($"select * from users {where}");
 
+            List<User> users = new List<User>();
+
+            while (table!.Read())
+            {
+                User user = new User((HostID)Convert.ToInt32(table["HostID"].ToString()), table["ID"].ToString(), table["PW"].ToString());
+                users.Add(user);
+            }
+
+            table.Close();
+
+            return users;
+        }
+
+        public void SelectRoom(string where = "")
+        {
+            if (where != "")
+            {
+                if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
+                    where = "where " + where;
+            }
+            _Select($"select * from rooms {where}");
+        }
+
+        public void SelectRoomUser(string where = "")
+        {
+            if (where != "")
+            {
+                if (!where.StartsWith("where") && !where.StartsWith("WHERE"))
+                    where = "where " + where;
+            }
+            _Select($"select * from roomusers {where}");
+        }
+
+        private MySqlDataReader? _Select(string sql)
+        {
+            try
+            {
+                var cmd = new MySqlCommand(sql, connection);
+                return cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public void Dispose()
         {
             connection.Close();
             connection.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

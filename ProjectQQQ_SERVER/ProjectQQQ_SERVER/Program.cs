@@ -58,6 +58,8 @@ class Program
 
         //mySql.InsertUser("kkulbeol", "123", HostID.HostID_None);
 
+        K.users = mySql.SelectUser();
+
         Console.WriteLine("Server is run.");
         while (true)
         {
@@ -67,16 +69,16 @@ class Program
 
     private static bool OnSignUp(HostID remote, RmiContext rmiContext, string id, string pw, string confirmPw)
     {
-        var find = K.clients.Find(x => x.ID == id);
+        var find = K.users.Find(x => x.ID == id);
         bool isSuccess = false;
         if (find == null)
         {
-            Client client = new Client(remote, id, pw);
+            User user = new User(remote, id, pw);
             isSuccess = pw == confirmPw;
             if (isSuccess)
             {
                 mySql.InsertUser(id, pw, remote);
-                K.clients.Add(client);
+                K.users.Add(user);
             }
         }
         proxy.SignUpResult(remote, rmiContext, id, isSuccess);
@@ -85,7 +87,7 @@ class Program
 
     private static bool OnLogIn(HostID remote, RmiContext rmiContext, string id, string pw)
     {
-        var find = K.clients.Find(x => x.ID == id);
+        var find = K.users.Find(x => x.ID == id);
         bool isSuccess = false;
         if (find! != null)
         {
@@ -99,10 +101,10 @@ class Program
 
     private static bool OnChatToAll(HostID remote, RmiContext rmiContext, string id, string chat)
     {
-        var find = K.clients.Find(x => x.ID == id);
+        var find = K.users.Find(x => x.ID == id);
         Console.WriteLine($"( ALL )[ {find!.ID} ] : {chat}");
-        foreach (var client in K.clients)
-            proxy.EchoToAll(client.hostID, rmiContext, id, chat);
+        foreach (var user in K.users)
+            proxy.EchoToAll(user.hostID, rmiContext, id, chat);
         return true;
     }
 
@@ -143,7 +145,7 @@ class Program
 
     private static bool OnRecordPosition(HostID remote, RmiContext rmiContext, string id, float x, float y, float z)
     {
-        var client = K.clients.Find(x => x.ID == id);
+        var client = K.users.Find(x => x.ID == id);
         if (client! != null)
         {
             var room = K.rooms.Find(x => x.id == client.roomNum);
@@ -163,7 +165,7 @@ class Program
 
     private static bool OnGetClientDatas(HostID remote, RmiContext rmiContext, string id)
     {
-        string json = JsonConvert.SerializeObject(new Serialization<Client>(K.clients));
+        string json = JsonConvert.SerializeObject(new Serialization<User>(K.users));
         proxy.GetClientDatas(remote, rmiContext, json);
         return true;
     }

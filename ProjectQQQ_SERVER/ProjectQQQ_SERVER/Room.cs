@@ -16,6 +16,6 @@ namespace ProjectQQQ_SERVER
         }
         public string name, pw;
         public int id;
-        public List<Client> clients = new List<Client>();
+        public List<User> clients = new List<User>();
     }
 }

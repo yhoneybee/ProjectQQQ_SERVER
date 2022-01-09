@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace ProjectQQQ_SERVER
 {
     [Serializable]
-    class Client
+    public class User
     {
-        public Client(HostID hostID, string ID, string PW)
+        public User(HostID hostID, string? ID, string? PW)
         {
             this.ID = ID;
             this.PW = PW;
