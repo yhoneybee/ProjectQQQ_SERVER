@@ -154,16 +154,34 @@ class Program
 
     private static bool OnCreateRoom(HostID remote, RmiContext rmiContext, string id, string roomName, string pw)
     {
+        int roomId = K.roomIDs[0];
+        K.roomIDs.RemoveAt(0);
+        if (K.rooms.Find(x => x.name == roomName) != null) return false;
+        Room room = new Room(roomName, roomId, pw);
+        K.rooms.Add(room);
+        mySql.InsertRoom(roomName, pw, roomId);
+        room.pw = mySql.SelectRoom($"ID = {roomId} and PW = md5('{pw}')")[0].pw;
+
         return true;
     }
 
     private static bool OnEnterRoom(HostID remote, RmiContext rmiContext, string id, string roomName, string pw)
     {
+        var room = K.rooms.Find(x => x.name == roomName);
+        mySql.InsertRoomUser(room!.id, id);
         return true;
     }
 
     private static bool OnExitRoom(HostID remote, RmiContext rmiContext, string id, string roomId)
     {
+        int iRoomID = Convert.ToInt32(roomId);
+        mySql.DeleteRoomUser($"UserID = '{id}' and RoomID = {iRoomID}");
+        if (mySql.SelectRoomUser($"RoomID = {iRoomID}").Count <= 0)
+        {
+            K.rooms.RemoveAll(x => x.id == iRoomID);
+            mySql.DeleteRoom($"ID = {iRoomID}");
+            K.roomIDs.Add(iRoomID);
+        }
         return true;
     }
 
