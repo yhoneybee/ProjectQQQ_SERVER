@@ -10,12 +10,12 @@ namespace ProjectQQQ_SERVER
     {
         public static List<User> users = new List<User>();
         public static List<Room> rooms = new List<Room>();
-        public static List<int> roomIDs = GetRandomInt(100, 0, 100);
+        public static List<int> roomIDs = new List<int>();
 
         public static List<int> GetRandomInt(int count, int min, int max)
         {
             var randList = new List<int>();
-            var resultList = new List<int>(count);
+            var resultList = Enumerable.Repeat(0, count).ToList();
 
             Random random = new Random();
 

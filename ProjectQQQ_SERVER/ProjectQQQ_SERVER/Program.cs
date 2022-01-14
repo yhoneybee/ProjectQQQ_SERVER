@@ -58,6 +58,8 @@ class Program
 
         //mySql.InsertUser("kkulbeol", "123", HostID.HostID_None);
 
+        K.roomIDs = K.GetRandomInt(100, 0, 100);
+
         K.users = mySql.SelectUser();
         Console.WriteLine($"------------------------------------------");
         Console.WriteLine($"- Users ({K.users.Count}) ------------------------------");
