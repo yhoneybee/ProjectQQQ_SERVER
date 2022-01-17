@@ -172,7 +172,7 @@ class Program
 
     private static bool OnEnterRoom(HostID remote, RmiContext rmiContext, string id, string roomName, string pw)
     {
-        var room = K.rooms.Find(x => x.name == roomName);
+        var room = K.rooms.Find(x => x.id.ToString() == roomName);
 
         proxy.EnterRoomResult(remote, rmiContext, id, roomName, room != null);
         if (room == null) return false;
