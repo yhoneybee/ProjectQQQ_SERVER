@@ -16,7 +16,8 @@ namespace ProjectQQQ_SERVER
             this.PW = PW!;
             this.hostID = hostID;
         }
-        public float x, y, z;
+        public float pX, pY, pZ;
+        public float rX, rY, rZ;
         public bool isReady;
         public bool isHost;
         public string ID, PW;

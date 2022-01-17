@@ -31,6 +31,7 @@ class Program
         stub.GameReady = OnGameReady;
         stub.GameStart = OnGameStart;
         stub.RecordPosition = OnRecordPosition;
+        stub.RecordRotation = OnRecordRotation;
         stub.GetRoomDatas = OnGetRoomDatas;
         stub.GetClientDatas = OnGetClientDatas;
 
@@ -138,8 +139,8 @@ class Program
         Console.WriteLine($"{chat}");
         foreach (var user in K.users)
         {
-            if (find!.ID != user.ID)
-                proxy.EchoToAll(user.hostID, rmiContext, id, chat);
+            if (find!.ID == user.ID) continue;
+            proxy.EchoToAll(user.hostID, rmiContext, id, chat);
         }
         return true;
     }
@@ -203,9 +204,32 @@ class Program
         if (user! != null)
         {
             var room = K.rooms.Find(x => x.id == user.roomID);
-            user.x = x;
-            user.y = y;
-            user.z = z;
+            user.pX = x;
+            user.pY = y;
+            user.pZ = z;
+            foreach (var roomUser in room!.users)
+            {
+                if (roomUser.ID == user.ID) continue;
+                proxy.NotifyPosition(roomUser.hostID, rmiContext, id, x, y, z);
+            }
+        }
+        return true;
+    }
+
+    private static bool OnRecordRotation(HostID remote, RmiContext rmiContext, string id, float x, float y, float z)
+    {
+        var user = K.users.Find(x => x.ID == id);
+        if (user! != null)
+        {
+            var room = K.rooms.Find(x => x.id == user.roomID);
+            user.rX = x;
+            user.rY = y;
+            user.rZ = z;
+            foreach (var roomUser in room!.users)
+            {
+                if (roomUser.ID == user.ID) continue;
+                proxy.NotifyRotation(roomUser.hostID, rmiContext, id, x, y, z);
+            }
         }
         return true;
     }
@@ -232,6 +256,7 @@ class Program
 
     private static void OnLeaveServer(NetClientInfo clientInfo, ErrorInfo errorinfo, ByteArray comment)
     {
+        Console.WriteLine("LEAVE");
         return;
     }
 }
