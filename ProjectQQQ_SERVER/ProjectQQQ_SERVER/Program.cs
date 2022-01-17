@@ -55,7 +55,7 @@ class Program
         //admin1.roomNum = admin2.roomNum = room.id = -1;
         //K.rooms.Add(room);
 
-        // TODO: ¿©±â¼­ DBÀÐ¾î¼­ À§¿Í°°ÀÌ Å¬¶óÀÌ¾ðÆ® Ãß°¡ÇØÁà¾ßÇÔ
+        // TODO: ï¿½ï¿½ï¿½â¼­ DBï¿½Ð¾î¼­ ï¿½ï¿½ï¿½Í°ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         //mySql.InsertUser("kkulbeol", "123", HostID.HostID_None);
 
