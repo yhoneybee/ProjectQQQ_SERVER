@@ -73,6 +73,7 @@ class Program
         foreach (var room in K.rooms)
         {
             Console.WriteLine($"room : {room.name}");
+            K.roomIDs.Remove(room.id);
         }
         foreach (var ru in mySql.SelectRoomUser())
         {
@@ -85,6 +86,7 @@ class Program
                 Console.WriteLine($"user({user.ID}) IN --> room({room.name})");
             }
         }
+
         Console.WriteLine($"------------------------------------------");
 
         Console.WriteLine("Server is run.");
@@ -175,24 +177,26 @@ class Program
         var room = K.rooms.Find(x => x.id.ToString() == roomName);
         var user = K.users.Find(x => x.ID == id);
         var roomUser = room!.users.Find(x => x.ID == user!.ID);
-        proxy.EnterRoomResult(remote, rmiContext, id, roomName, room != null && user != null && roomUser != null);
-        if (roomUser != null) return false;
+        proxy.EnterRoomResult(remote, rmiContext, id, roomName, user!.roomID == 0 && room != null && user != null && roomUser == null);
+        if (user!.roomID != 0 || roomUser != null || room == null || user == null) return false;
+        user!.roomID = room!.id;
         room!.users.Add(user!);
-        if (room != null && user != null) return false;
         mySql.InsertRoomUser(room!.id, id);
         return true;
     }
 
     private static bool OnExitRoom(HostID remote, RmiContext rmiContext, string id, string roomId)
     {
+        var user = K.users.Find(x => x.ID == id);
         int iRoomID = Convert.ToInt32(roomId);
         mySql.DeleteRoomUser($"UserID = '{id}' and RoomID = {iRoomID}");
-        if (mySql.SelectRoomUser($"RoomID = {iRoomID}").Count <= 0)
-        {
-            K.rooms.RemoveAll(x => x.id == iRoomID);
-            mySql.DeleteRoom($"ID = {iRoomID}");
-            K.roomIDs.Add(iRoomID);
-        }
+        if (mySql.SelectRoomUser($"RoomID = {iRoomID}").Count > 0) return true;
+
+        user.roomID = 0;
+        K.rooms.RemoveAll(x => x.id == iRoomID);
+        mySql.DeleteRoom($"ID = {iRoomID}");
+        K.roomIDs.Add(iRoomID);
+
         return true;
     }
 
@@ -265,6 +269,8 @@ class Program
     private static void OnLeaveServer(NetClientInfo clientInfo, ErrorInfo errorinfo, ByteArray comment)
     {
         Console.WriteLine("LEAVE");
+        var find = K.users.Find(x => x.hostID == clientInfo.hostID);
+        OnExitRoom(find!.hostID, RmiContext.ReliableSend, find.ID, find.roomID.ToString());
         return;
     }
 }
