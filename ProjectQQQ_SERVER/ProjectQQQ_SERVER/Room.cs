@@ -17,6 +17,7 @@ namespace ProjectQQQ_SERVER
         }
         public string name, pw;
         public int id;
+        public bool isPlaying;
         public List<User> users = new List<User>();
     }
 }
