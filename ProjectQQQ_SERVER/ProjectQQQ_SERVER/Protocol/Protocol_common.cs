@@ -26,6 +26,7 @@ namespace C2S
         public const Nettention.Proud.RmiID GameReady = (Nettention.Proud.RmiID)1000 + 11;
         public const Nettention.Proud.RmiID GameStart = (Nettention.Proud.RmiID)1000 + 12;
         public const Nettention.Proud.RmiID RecordPosition = (Nettention.Proud.RmiID)1000 + 13;
+        public const Nettention.Proud.RmiID RecordRotation = (Nettention.Proud.RmiID)1000 + 14;
         // List that has RMI ID.
         public static Nettention.Proud.RmiID[] RmiIDList = new Nettention.Proud.RmiID[] {
             SignUp,
@@ -41,6 +42,7 @@ namespace C2S
             GameReady,
             GameStart,
             RecordPosition,
+            RecordRotation,
         };
     }
 }
@@ -61,8 +63,8 @@ namespace S2C
         public const Nettention.Proud.RmiID GetClientDatas = (Nettention.Proud.RmiID)4000 + 10;
         public const Nettention.Proud.RmiID GameReadyReflection = (Nettention.Proud.RmiID)4000 + 11;
         public const Nettention.Proud.RmiID GameStartReflection = (Nettention.Proud.RmiID)4000 + 12;
-        public const Nettention.Proud.RmiID PositionReflection = (Nettention.Proud.RmiID)4000 + 13;
-        public const Nettention.Proud.RmiID NotifyPosition = (Nettention.Proud.RmiID)4000 + 14;
+        public const Nettention.Proud.RmiID NotifyPosition = (Nettention.Proud.RmiID)4000 + 13;
+        public const Nettention.Proud.RmiID NotifyRotation = (Nettention.Proud.RmiID)4000 + 14;
         // List that has RMI ID.
         public static Nettention.Proud.RmiID[] RmiIDList = new Nettention.Proud.RmiID[] {
             SignUpResult,
@@ -77,8 +79,8 @@ namespace S2C
             GetClientDatas,
             GameReadyReflection,
             GameStartReflection,
-            PositionReflection,
             NotifyPosition,
+            NotifyRotation,
         };
     }
 }

@@ -383,6 +383,38 @@ namespace C2S
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_RecordPosition, Common.RecordPosition);
         }
+        public bool RecordRotation(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, float x, float y, float z)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.RecordRotation;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, x);
+            Nettention.Proud.Marshaler.Write(__msg, y);
+            Nettention.Proud.Marshaler.Write(__msg, z);
+
+            Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
+            __list[0] = remote;
+
+            return RmiSend(__list, rmiContext, __msg,
+                RmiName_RecordRotation, Common.RecordRotation);
+        }
+
+        public bool RecordRotation(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, float x, float y, float z)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.RecordRotation;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, x);
+            Nettention.Proud.Marshaler.Write(__msg, y);
+            Nettention.Proud.Marshaler.Write(__msg, z);
+
+            return RmiSend(remotes, rmiContext, __msg,
+                RmiName_RecordRotation, Common.RecordRotation);
+        }
 
 #if USE_RMI_NAME_STRING
 // RMI name declaration.
@@ -400,6 +432,7 @@ public const string RmiName_GetClientDatas="GetClientDatas";
 public const string RmiName_GameReady="GameReady";
 public const string RmiName_GameStart="GameStart";
 public const string RmiName_RecordPosition="RecordPosition";
+public const string RmiName_RecordRotation="RecordRotation";
        
 public const string RmiName_First = RmiName_SignUp;
 #else
@@ -418,6 +451,7 @@ public const string RmiName_First = RmiName_SignUp;
         public const string RmiName_GameReady = "";
         public const string RmiName_GameStart = "";
         public const string RmiName_RecordPosition = "";
+        public const string RmiName_RecordRotation = "";
 
         public const string RmiName_First = "";
 #endif
@@ -573,14 +607,14 @@ namespace S2C
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_EchoToPerson, Common.EchoToPerson);
         }
-        public bool CreateRoomResult(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomName, bool isSuccess)
+        public bool CreateRoomResult(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, string roomId, bool isSuccess)
         {
             Nettention.Proud.Message __msg = new Nettention.Proud.Message();
             __msg.SimplePacketMode = core.IsSimplePacketMode();
             Nettention.Proud.RmiID __msgid = Common.CreateRoomResult;
             __msg.Write(__msgid);
             Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, roomName);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
             Nettention.Proud.Marshaler.Write(__msg, isSuccess);
 
             Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
@@ -590,14 +624,14 @@ namespace S2C
                 RmiName_CreateRoomResult, Common.CreateRoomResult);
         }
 
-        public bool CreateRoomResult(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomName, bool isSuccess)
+        public bool CreateRoomResult(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, string roomId, bool isSuccess)
         {
             Nettention.Proud.Message __msg = new Nettention.Proud.Message();
             __msg.SimplePacketMode = core.IsSimplePacketMode();
             Nettention.Proud.RmiID __msgid = Common.CreateRoomResult;
             __msg.Write(__msgid);
             Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, roomName);
+            Nettention.Proud.Marshaler.Write(__msg, roomId);
             Nettention.Proud.Marshaler.Write(__msg, isSuccess);
 
             return RmiSend(remotes, rmiContext, __msg,
@@ -767,38 +801,6 @@ namespace S2C
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_GameStartReflection, Common.GameStartReflection);
         }
-        public bool PositionReflection(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, float x, float y, float z)
-        {
-            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
-            __msg.SimplePacketMode = core.IsSimplePacketMode();
-            Nettention.Proud.RmiID __msgid = Common.PositionReflection;
-            __msg.Write(__msgid);
-            Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, x);
-            Nettention.Proud.Marshaler.Write(__msg, y);
-            Nettention.Proud.Marshaler.Write(__msg, z);
-
-            Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
-            __list[0] = remote;
-
-            return RmiSend(__list, rmiContext, __msg,
-                RmiName_PositionReflection, Common.PositionReflection);
-        }
-
-        public bool PositionReflection(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, float x, float y, float z)
-        {
-            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
-            __msg.SimplePacketMode = core.IsSimplePacketMode();
-            Nettention.Proud.RmiID __msgid = Common.PositionReflection;
-            __msg.Write(__msgid);
-            Nettention.Proud.Marshaler.Write(__msg, id);
-            Nettention.Proud.Marshaler.Write(__msg, x);
-            Nettention.Proud.Marshaler.Write(__msg, y);
-            Nettention.Proud.Marshaler.Write(__msg, z);
-
-            return RmiSend(remotes, rmiContext, __msg,
-                RmiName_PositionReflection, Common.PositionReflection);
-        }
         public bool NotifyPosition(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, float x, float y, float z)
         {
             Nettention.Proud.Message __msg = new Nettention.Proud.Message();
@@ -831,6 +833,38 @@ namespace S2C
             return RmiSend(remotes, rmiContext, __msg,
                 RmiName_NotifyPosition, Common.NotifyPosition);
         }
+        public bool NotifyRotation(Nettention.Proud.HostID remote, Nettention.Proud.RmiContext rmiContext, string id, float x, float y, float z)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.NotifyRotation;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, x);
+            Nettention.Proud.Marshaler.Write(__msg, y);
+            Nettention.Proud.Marshaler.Write(__msg, z);
+
+            Nettention.Proud.HostID[] __list = new Nettention.Proud.HostID[1];
+            __list[0] = remote;
+
+            return RmiSend(__list, rmiContext, __msg,
+                RmiName_NotifyRotation, Common.NotifyRotation);
+        }
+
+        public bool NotifyRotation(Nettention.Proud.HostID[] remotes, Nettention.Proud.RmiContext rmiContext, string id, float x, float y, float z)
+        {
+            Nettention.Proud.Message __msg = new Nettention.Proud.Message();
+            __msg.SimplePacketMode = core.IsSimplePacketMode();
+            Nettention.Proud.RmiID __msgid = Common.NotifyRotation;
+            __msg.Write(__msgid);
+            Nettention.Proud.Marshaler.Write(__msg, id);
+            Nettention.Proud.Marshaler.Write(__msg, x);
+            Nettention.Proud.Marshaler.Write(__msg, y);
+            Nettention.Proud.Marshaler.Write(__msg, z);
+
+            return RmiSend(remotes, rmiContext, __msg,
+                RmiName_NotifyRotation, Common.NotifyRotation);
+        }
 
 #if USE_RMI_NAME_STRING
 // RMI name declaration.
@@ -847,8 +881,8 @@ public const string RmiName_GetRoomDatas="GetRoomDatas";
 public const string RmiName_GetClientDatas="GetClientDatas";
 public const string RmiName_GameReadyReflection="GameReadyReflection";
 public const string RmiName_GameStartReflection="GameStartReflection";
-public const string RmiName_PositionReflection="PositionReflection";
 public const string RmiName_NotifyPosition="NotifyPosition";
+public const string RmiName_NotifyRotation="NotifyRotation";
        
 public const string RmiName_First = RmiName_SignUpResult;
 #else
@@ -866,8 +900,8 @@ public const string RmiName_First = RmiName_SignUpResult;
         public const string RmiName_GetClientDatas = "";
         public const string RmiName_GameReadyReflection = "";
         public const string RmiName_GameStartReflection = "";
-        public const string RmiName_PositionReflection = "";
         public const string RmiName_NotifyPosition = "";
+        public const string RmiName_NotifyRotation = "";
 
         public const string RmiName_First = "";
 #endif
