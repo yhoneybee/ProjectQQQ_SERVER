@@ -159,7 +159,9 @@ class Program
     {
         int roomId = K.roomIDs[0];
         K.roomIDs.RemoveAt(0);
-        if (K.rooms.Find(x => x.name == roomName) != null) return false;
+        var find = K.rooms.Find(x => x.name == roomName);
+        proxy.CreateRoomResult(remote, rmiContext, id, roomId.ToString(), find == null);
+        if (find != null) return false;
         Room room = new Room(roomName, roomId, pw);
         K.rooms.Add(room);
         mySql.InsertRoom(roomName, pw, roomId);
@@ -171,6 +173,9 @@ class Program
     private static bool OnEnterRoom(HostID remote, RmiContext rmiContext, string id, string roomName, string pw)
     {
         var room = K.rooms.Find(x => x.name == roomName);
+
+        proxy.EnterRoomResult(remote, rmiContext, id, roomName, room != null);
+        if (room == null) return false;
         mySql.InsertRoomUser(room!.id, id);
         return true;
     }
