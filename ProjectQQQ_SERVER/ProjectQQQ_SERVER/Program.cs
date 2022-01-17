@@ -173,9 +173,11 @@ class Program
     private static bool OnEnterRoom(HostID remote, RmiContext rmiContext, string id, string roomName, string pw)
     {
         var room = K.rooms.Find(x => x.name == roomName);
-
-        proxy.EnterRoomResult(remote, rmiContext, id, roomName, room != null);
-        if (room == null) return false;
+        var user = K.users.Find(x => x.ID == id);
+        var roomUser = room!.users.Find(x => x.ID == user!.ID);
+        room!.users.Add(user!);
+        proxy.EnterRoomResult(remote, rmiContext, id, roomName, room != null && user != null);
+        if (room != null && user != null) return false;
         mySql.InsertRoomUser(room!.id, id);
         return true;
     }
