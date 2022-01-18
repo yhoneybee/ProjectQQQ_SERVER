@@ -189,12 +189,12 @@ class Program
     {
         var user = K.users.Find(x => x.ID == id);
 
+        proxy.ExitRoomResult(remote, rmiContext, id, roomId, user != null);
         if (user == null) return false;
 
         int iRoomID = Convert.ToInt32(roomId);
         mySql.DeleteRoomUser($"UserID = '{id}' and RoomID = {iRoomID}");
         var roomUsers = mySql.SelectRoomUser($"RoomID = {iRoomID}");
-        proxy.ExitRoomResult(remote, rmiContext, id, roomId, user != null);
         if (roomUsers.Count > 0) return true;
 
         user.roomID = 0;
