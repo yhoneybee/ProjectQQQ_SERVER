@@ -188,9 +188,14 @@ class Program
     private static bool OnExitRoom(HostID remote, RmiContext rmiContext, string id, string roomId)
     {
         var user = K.users.Find(x => x.ID == id);
+
+        if (user == null) return false;
+
         int iRoomID = Convert.ToInt32(roomId);
         mySql.DeleteRoomUser($"UserID = '{id}' and RoomID = {iRoomID}");
-        if (mySql.SelectRoomUser($"RoomID = {iRoomID}").Count > 0) return true;
+        var roomUsers = mySql.SelectRoomUser($"RoomID = {iRoomID}");
+        proxy.ExitRoomResult(remote, rmiContext, id, roomId, user != null);
+        if (roomUsers.Count > 0) return true;
 
         user.roomID = 0;
         K.rooms.RemoveAll(x => x.id == iRoomID);
